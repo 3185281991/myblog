@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myitem.mapper.ReviewMapper">
+<select id="getReviewsByEmail" resultType="Review" parameterType="Customer">
+    select * from review where rBid=#{comBid} and cusName=#{cusName} and cusEmail=#{email} and comValue=#{comValue} and comTime=#{comTime}
+</select>
+    <insert id="addReview" parameterType="Review">
+        insert into review values (#{rBid},#{cusName},#{cusEmail},#{reName},#{reEmail},#{reContent},#{reTime},#{comValue},#{comTime})
+    </insert>
+</mapper>

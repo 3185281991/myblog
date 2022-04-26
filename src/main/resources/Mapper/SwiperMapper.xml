@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myitem.mapper.SwiperMapper">
+    <!--  首页轮播图的图片添加  -->
+    <insert id="addSwiperImg" parameterType="String">
+        insert into swiper(imgPath) values (#{imgPath})
+    </insert>
+    <!--   首页随机取5张图片 -->
+    <select id="randomImg" resultType="swiper">
+        SELECT *
+        FROM swiper AS u
+                 INNER JOIN (SELECT id
+                             FROM swiper
+                             where id > 1
+                             ORDER By RAND() LIMIT 5) AS t ON t.id = u.id
+    </select>
+<!--  所有轮播图片地址  -->
+    <select id="getAllImg" resultType="Swiper">
+        select * from swiper
+    </select>
+<!--   删除图片 -->
+    <delete id="deleteImgById" parameterType="Integer">
+        delete from swiper where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,29 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog
+    username: root
+    password: 147258369lyh.
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+  #API密钥secretId
+  qcloud:
+    secretId: AKIDKSLzNWP3RaT7VdW9WeXAXeW0EDwQecLo
+    #API密钥secretKey
+    secretKey: FEySgfOr53lERO6YkhPr8AxUlnZ6NPBh
+    #存储桶所属地域
+    region: ap-nanjing
+    #存储桶空间名称
+    bucketName: pimg-1310724460
+    #存储桶访问域名
+    url: https://pimg-1310724460.cos.ap-nanjing.myqcloud.com
+    #上传文件前缀路径(eg:/images/)
+    prefix: /myblog/
+mybatis:
+  mapper-locations: classpath:Mapper/*Mapper.xml
+  type-aliases-package: com.example.myitem.entity
+

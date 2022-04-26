@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myitem.mapper.BlogMapper">
+    <!--  所有博客信息  -->
+    <select id="getAllBlog" resultType="Blog">
+        SELECT *
+        from blog
+        where bid != 1
+        ORDER BY top desc, time desc
+    </select>
+    <!--  分类博客信息  -->
+    <select id="getBlogByType" resultType="Blog" parameterType="String">
+        select *
+        from (select *
+              from blog
+              where type = #{type}
+              order by time desc) as t
+        order by t.top desc
+    </select>
+    <!--   bid查找博客信息-->
+    <select id="getById" resultType="Blog" parameterType="Integer">
+        select *
+        from blog
+        where bid = #{bid}
+    </select>
+    <!--    点赞数加1-->
+    <update id="addLaud" parameterType="Integer">
+        update blog
+        set lauds=lauds + 1
+        where bid = #{bid}
+    </update>
+    <!--    观看数加1-->
+    <update id="addView" parameterType="Integer">
+        update blog
+        set views=views + 1
+        where bid = #{bid}
+    </update>
+    <!--  评论数+1  -->
+    <update id="addComment" parameterType="Integer">
+        update blog
+        set commentsNum=commentsNum + 1
+        where bid = #{bid}
+    </update>
+
+    <!--    模糊查询博客信息，不要找出留言板信息-->
+    <select id="likeFind" parameterType="String" resultType="Blog">
+        select *
+        from (select *
+              from blog
+              where label like '%${str}%'
+                 or title like '%${str}%'
+                 or type like '%${str}%'
+                 or content like '%${str}%'
+                 or author like '%${str}%') as t
+        where t.bid!=1
+    </select>
+    <!--    搜索栏默认采用查询随机36，-->
+    <select id="SearchInfo" resultType="Blog">
+        SELECT *
+        FROM blog AS u
+                 INNER JOIN (SELECT bid
+                             FROM blog
+                             where bid > 1
+                             ORDER By RAND() LIMIT 36) AS t ON t.bid = u.bid
+    </select>
+    <!--    所有标签,不要找出留言板标签 -->
+    <select id="getLabel" resultType="String">
+        select label
+        from blog
+        where bid !=1
+        GROUP BY label
+    </select>
+    <!--   右侧栏推荐 6条，评论数 -->
+    <select id="Recommend" resultType="Blog">
+        select *
+        from blog where bid!=1
+        order by lauds desc limit 6
+    </select>
+
+    <!--    后台-->
+    <select id="groupByType" resultType="java.util.Map">
+        select type, COUNT(*) as num
+        from blog
+        GROUP BY type
+    </select>
+    <!--   八条近期发布 -->
+    <select id="getNew" resultType="Blog">
+        select bid, author, title, time
+        from blog
+        order by time desc limit 8
+    </select>
+    <!--  所有总数  -->
+    <select id="getAllSum" resultType="java.util.Map">
+        select count(*) as allNum, sum(lauds) as allLauds, sum(views) as allViews, sum(commentsNum) as allComment
+        from blog
+    </select>
+    <!--   点赞排行 -->
+    <select id="laudsPx" resultType="Blog">
+        select author, title, lauds
+        from blog
+        order by lauds desc limit 8
+    </select>
+    <!--   浏览排行 -->
+    <select id="viewsPx" resultType="Blog">
+        select author, title, views
+        from blog
+        order by views desc limit 8
+    </select>
+    <!--   评论排行 -->
+    <select id="commentsPx" resultType="Blog">
+        select author, title, commentsNum
+        from blog
+        order by commentsNum desc limit 8
+    </select>
+    <!--    作者发布数量-->
+    <select id="authorText" resultType="java.util.Map">
+        select author,
+               sum(type = "生活日常") as life,
+               sum(type = "个人经历") as about,
+               sum(type = "技术知识") as knowledge,
+               sum(type = "工作总结") as work
+        from blog
+        GROUP BY author
+    </select>
+    <!--  所有博客信息  -->
+    <select id="getBlogsSequence" resultType="Blog">
+        select *
+        from blog
+        ORDER BY bid asc
+    </select>
+    <!--   添加博客 -->
+    <insert id="addBlog" parameterType="Blog">
+        insert into blog(author, label, type, title, content, img, time, top)
+        values (#{author}, #{label}, #{type}, #{title}, #{content}, #{img}, #{time}, #{top})
+    </insert>
+    <!--    删除博客bid-->
+    <delete id="deleteById" parameterType="Integer">
+        delete
+        from blog
+        where bid = #{bid}
+    </delete>
+    <!--    修改留言板内容-->
+    <update id="updateMessageBoard" parameterType="String">
+        update blog
+        set content=#{content}
+        where bid = 1
+
+    </update>
+
+</mapper>

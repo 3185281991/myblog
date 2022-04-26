@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myitem.mapper.ImpassionMapper">
+<!--   首页随机一条数据 -->
+    <select id="getImpassion" resultType="Impassion">
+        SELECT *
+        FROM impassion AS u
+                 INNER JOIN (SELECT id
+                             FROM impassion
+                             ORDER By RAND() LIMIT 1) AS t ON t.id = u.id
+    </select>
+<!--  后台获取所有信息  -->
+    <select id="getAllImpassion" resultType="Impassion">
+        select  * from impassion
+    </select>
+<!--   尽量130,120个字 -->
+    <insert id="addImpassion" parameterType="String">
+        insert into impassion(text) values(#{text})
+    </insert>
+    <!--    根据id删除-->
+    <delete id="deImpassionById" parameterType="Integer">
+        delete  from impassion where id=#{id}
+    </delete>
+
+</mapper>
