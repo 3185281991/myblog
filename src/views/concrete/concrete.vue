@@ -25,9 +25,9 @@
           </li>
         </ul>
       </div>
-      <div class="content">
+      <div class="content ql-snow">
         <div class="conimg"><img :src="text.img | getFirstImg" alt="" /></div>
-        <p v-html="text.content"></p>
+        <div class="ql-editor" v-html="text.content"></div>
         <div
           class="conimg"
           v-for="(item, index) in getOther(text.img)"
@@ -180,24 +180,16 @@ img {
   width: 100%;
   max-height: 2.8646rem;
   overflow: hidden;
+  margin-bottom: 0.0521rem;
   text-align: center;
 }
 .conimg img {
   display: block;
-  max-height: 100%;
+  width: 100%;
   max-height: 100%;
   margin: auto;
 }
-.content p {
-  display: block;
-  width: 95%;
-  margin: 0.0521rem auto;
-  font-size: 0.0938rem;
-  text-indent: 2.1em;
-  line-height: 2em;
-  letter-spacing: 0.1em;
-  word-wrap: break-word;
-}
+
 .content .time {
   height: 0.2083rem;
   width: 95%;
