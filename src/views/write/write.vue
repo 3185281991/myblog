@@ -28,8 +28,8 @@
         <el-switch v-model="blog.top"></el-switch>
       </el-form-item>
 
-      <el-form-item label="文章内容" prop="content">
-        <el-input
+      <el-form-item class="editor" label="文章内容" prop="content">
+        <!-- <el-input
           @keyup.enter.native="addBr"
           class="eltext"
           rows="12"
@@ -37,9 +37,10 @@
           style="overflow-y: scroll"
           v-model="blog.content"
           ref="text"
-        ></el-input>
+        ></el-input> -->
+        <quilEditor @textBlur="getContent" />
       </el-form-item>
-      <el-form-item label="上传图片">
+      <el-form-item class="upload" label="上传图片">
         <el-upload
           ref="imgForm"
           action=""
@@ -84,10 +85,12 @@
 <script>
 import { addBlog } from "@/network/data.js";
 import { throttle } from "@/utils/utils.js";
+import quilEditor from "@/components/common/editor/quilEditor";
 export default {
   name: "write",
   data() {
     return {
+      content: "",
       blog: {
         title: "",
         author: "",
@@ -111,14 +114,13 @@ export default {
           { min: 2, max: 9, message: "标签字数2~9", trigger: "blur" },
         ],
         type: [{ required: true, message: "未选择类型", trigger: "blur" }],
-        content: [
-          { required: true, message: "请输入内容", trigger: "blur" },
-          { min: 200, max: 2000, message: "最少输入200字", trigger: "blur" },
-        ],
       },
       disabled: false,
       formData: "",
     };
+  },
+  components: {
+    quilEditor,
   },
   methods: {
     //上传信息
@@ -158,13 +160,18 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if (this.content.length <= 200) {
+            this.$message.warning("最少输入两百字。");
+            return false;
+          }
           let time = Math.floor(new Date().getTime() / 1000);
           this.formData = new FormData();
           this.formData.append("author", this.blog.author);
           this.formData.append("label", this.blog.label);
           this.formData.append("type", this.blog.type);
           this.formData.append("title", this.blog.title);
-          this.formData.append("content", this.blog.content);
+          this.formData.append("content", this.content);
+
           this.$refs.imgForm.submit();
           let top = "";
           if (this.blog.top === true) {
@@ -189,26 +196,8 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    //关于换行缩进对其，</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ctrl+p按下在文章后面添加就可以
-    addBr(e) {
-      if (e.ctrlKey && e.keyCode == 13) {
-        //用户点击了ctrl+enter触发,拿到光标位置
-        let cursorIndex = e.srcElement.selectionStart;
-        let s1 = "";
-        let s2 = "";
-        if (this.blog.content.length < cursorIndex) {
-          this.blog.content =
-            this.blog.content + "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        } else {
-          s1 = this.blog.content.toString();
-          s2 = this.blog.content.toString();
-          let pre =
-            s1.substring(0, cursorIndex) +
-            "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-          let end = s2.substring(cursorIndex, this.blog.content.length);
-          this.blog.content = pre + end;
-        }
-      }
+    getContent(content) {
+      this.content = content;
     },
   },
 };
@@ -226,14 +215,14 @@ export default {
 .el-input {
   width: 1.8229rem;
 }
-.eltext {
-  width: 80%;
-  overflow-y: scroll;
+.editor {
+  width: 70vw;
 }
-::-webkit-scrollbar {
-  display: none;
+.upload {
+  margin-top: 0.5208rem;
 }
 .el-upload-list__item-thumbnail {
+  margin-top: 20px;
   width: 100%;
   height: 1.0156rem;
 }
