@@ -3,6 +3,7 @@ import App from "./App.vue";
 import store from "./store";
 import router from "./router";
 // import VueRouter from "vue-router";
+
 Vue.use(VueRouter);
 
 // import ElementUI from "element-ui";
@@ -20,3 +21,6 @@ new Vue({
 import "amfe-flexible";
 // import "swiper/css/swiper.min.css";
 import "@/assets/css/iconfont.css";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
