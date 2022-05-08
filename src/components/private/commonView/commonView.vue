@@ -74,8 +74,8 @@ export default {
     //随机截取一段内容
     getRandomContent() {
       return function (str) {
-        //拿到的数据会包含换行什么的，要替换掉
-        let rs = str.replace(/&nbsp;/g, "").replace(/<\/br>/g, "");
+        //将html文本中的所有<>标签全部替换掉
+        let rs = str.replace(/(<[^>]+>)/g, "");
         let random = Math.ceil(Math.random() * 50 + 150);
         return rs.slice(0, random) + "......";
       };
