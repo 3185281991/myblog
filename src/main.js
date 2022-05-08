@@ -2,10 +2,12 @@
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
+// import VueRouter from "vue-router";
+
 Vue.use(VueRouter);
-//全局插件
-import toast from "components/common/toast/index";
-Vue.use(toast);
+
+// import ElementUI from "element-ui";
+// Vue.use(ELEMENT);
 
 //事件总线
 Vue.prototype.$bus = new Vue({});
@@ -17,6 +19,8 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 import "amfe-flexible";
-
-import "swiper/css/swiper.min.css";
+// import "swiper/css/swiper.min.css";
 import "@/assets/css/iconfont.css";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
