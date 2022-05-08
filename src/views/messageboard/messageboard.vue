@@ -2,8 +2,8 @@
   <div class="board">
     <div class="main">
       <labeltab v-if="$route.meta.info !== ''" />
-      <div class="intro" v-if="item != null">
-        <p v-html="item.content"></p>
+      <div class="intro ql-snow" v-if="item != null">
+        <div class="ql-editor" v-html="item.content"></div>
       </div>
       <div class="under" v-if="comments != null">
         <div class="reviewx">
