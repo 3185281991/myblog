@@ -4,9 +4,9 @@
       <div class="main">
         <span class="title">{{ item.title }}</span>
         <div class="icon"><iconlist :item="item" /></div>
-        <div class="cen">
+        <div class="cen ql-snow">
           <div class="cenimg"><img :src="item.img | getFirstImg" alt="" /></div>
-          <p v-html="item.content"></p>
+          <div class="ql-editor" v-html="item.content"></div>
           <div
             class="cenimg"
             v-for="(item, index) in getOther(item.img)"
@@ -202,25 +202,15 @@ export default {
 .cen .cenimg {
   width: 100%;
   max-height: 2.8646rem;
+  margin-bottom: 0.0521rem;
   overflow: hidden;
   text-align: center;
 }
 .cenimg img {
-  max-width: 100%;
+  width: 100%;
   max-height: 100%;
   display: block;
   margin: 0 auto;
-}
-.cen p {
-  font-size: 0.1042rem;
-  line-height: 2em;
-  padding-left: 0.0521rem;
-  padding-right: 0.0521rem;
-  text-indent: 2em;
-  word-wrap: break-word;
-}
-.cen div {
-  width: 100%;
 }
 .bon {
   width: 100%;
