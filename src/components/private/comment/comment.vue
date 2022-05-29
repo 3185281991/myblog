@@ -79,13 +79,9 @@ export default {
     //判断是否评论过，拿到之前的数据
     judgeLocal() {
       if (localStorage.getItem("username") && localStorage.getItem("email")) {
-        localStorage.removeItem("username1");
-        localStorage.removeItem("email1");
         this.username = localStorage.getItem("username");
         this.email = localStorage.getItem("email");
-        return true;
       }
-      return false;
     },
     //提交评论或回复信息
     submit() {
