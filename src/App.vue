@@ -15,6 +15,12 @@ export default {
   },
   components: {},
   created() {
+    let time = Date.now();
+    let expires = localStorage.getItem("basicTime");
+    if (time - expires > 2 * 60 * 60 * 24) {
+      localStorage.removeItem("useanme");
+      localStorage.removeItem("email");
+    }
     this.$store.commit("defaultInfo");
   },
 };
