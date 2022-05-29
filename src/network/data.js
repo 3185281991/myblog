@@ -1,7 +1,7 @@
 import request from "./index";
 //所有博客顺序bid
 export function getBlogsSequence() {
-  return request({ url: "/getBlogsSequence" });
+  return request({ url: "/protect/getBlogsSequence" });
 }
 //模糊查询
 export function likeFind(str) {
@@ -16,7 +16,7 @@ export function likeFind(str) {
 export function deleteById(bid) {
   return request({
     method: "post",
-    url: "/deleteById",
+    url: "/protect/deleteById",
     data: bid,
   });
 }
@@ -24,7 +24,7 @@ export function deleteById(bid) {
 export function addBlog(blog) {
   return request({
     method: "post",
-    url: "/addBlog",
+    url: "/protect/addBlog",
     data: blog,
   });
 }
@@ -86,7 +86,7 @@ export function getContent(bid) {
 export function updateMessageBoard(content) {
   return request({
     method: "post",
-    url: "/updateMessageBoard",
+    url: "/protect/updateMessageBoard",
     data: content,
   });
 }
@@ -94,7 +94,7 @@ export function updateMessageBoard(content) {
 export function addImpassion(text) {
   return request({
     method: "post",
-    url: "/addImpassion",
+    url: "/protect/addImpassion",
     data: text,
   });
 }
@@ -102,7 +102,7 @@ export function addImpassion(text) {
 export function addAdvertise(text) {
   return request({
     method: "post",
-    url: "/addAdvertise",
+    url: "/protect/addAdvertise",
     data: text,
   });
 }
@@ -120,14 +120,14 @@ export function getAllImpassion() {
 //根据id删除impassion,advertise信息
 export function deAdvertiseById(id) {
   return request({
-    url: "/deAdvertiseById",
+    url: "/protect/deAdvertiseById",
     method: "post",
     data: id,
   });
 }
 export function deImpassionById(id) {
   return request({
-    url: "/deImpassionById",
+    url: "/protect/deImpassionById",
     method: "post",
     data: id,
   });
@@ -136,7 +136,7 @@ export function deImpassionById(id) {
 export function addSwiperImg(file) {
   return request({
     method: "post",
-    url: "/addSwiperImg",
+    url: "/protect/addSwiperImg",
     data: file,
   });
 }
@@ -144,14 +144,14 @@ export function addSwiperImg(file) {
 export function getAllImg() {
   return request({
     method: "post",
-    url: "/getAllImg",
+    url: "/protect/getAllImg",
   });
 }
 //根据id删除图片路径
 export function deleteImgById(id) {
   return request({
     method: "post",
-    url: "/deleteImgById",
+    url: "/protect/deleteImgById",
     data: id,
   });
 }
