@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 //允许所有跨域
-@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:8081"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:81"}, maxAge = 3600)
 @RequestMapping("/myBlog")
 public class ImpassionController {
     @Autowired
@@ -27,13 +27,13 @@ public class ImpassionController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/addImpassion")
+    @PostMapping("/protect/addImpassion")
     public ResponseEntity<Integer> addImpassion(String text) {
        int result = impassionService.addImpassion(text);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/deImpassionById")
+    @PostMapping("/protect/deImpassionById")
     public ResponseEntity<String> deImpassionById(Integer id) {
         impassionService.deImpassionById(id);
         return new ResponseEntity<>("一条每日一句记录已删除", HttpStatus.OK);

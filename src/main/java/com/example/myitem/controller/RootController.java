@@ -1,6 +1,6 @@
 package com.example.myitem.controller;
 
-import com.example.myitem.entity.Impassion;
+import com.example.myitem.config.JwtUtils;
 import com.example.myitem.entity.Root;
 import com.example.myitem.service.RootService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:8081"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:81"}, maxAge = 3600)
 @RequestMapping("/myBlog")
 public class RootController {
     @Autowired
     public RootService rootService;
+    @GetMapping("/protect/AutoLogin")
+    public ResponseEntity<String> AutoLogin(Root root) {
+        return new ResponseEntity<>("识别成功", HttpStatus.OK);
+    }
 
-    @PostMapping("/RootLogin")
-    public ResponseEntity<List<Root>> RootLogin(Root root) {
-        System.out.println(root);
-        List<Root> result = rootService.RootLogin(root);
+    @PostMapping("/protect/RootLogin")
+    public ResponseEntity<List> RootLogin(Root root) {
+        List result = rootService.RootLogin(root);
+        if(result.size()!=0){
+            result.add(JwtUtils.getToken(root));
+        }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

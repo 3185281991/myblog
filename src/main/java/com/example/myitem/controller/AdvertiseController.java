@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:8081"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:81"}, maxAge = 3600)
 @RequestMapping("/myBlog")
 public class AdvertiseController {
     @Autowired
@@ -27,13 +27,13 @@ public class AdvertiseController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/addAdvertise")
+    @PostMapping("/protect/addAdvertise")
     public ResponseEntity<Integer> addAdvertise(String text) {
         int result = advertiseService.addAdvertise(text);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/deAdvertiseById")
+    @PostMapping("/protect/deAdvertiseById")
     public ResponseEntity<String> deAdvertiseById(Integer id) {
          advertiseService.deAdvertiseById(id);
         return new ResponseEntity<>("一条介绍记录已删除", HttpStatus.OK);

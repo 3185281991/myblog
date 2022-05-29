@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 //允许所有跨域
-@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:8081"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://124.221.69.31", "http://124.221.69.31:81"}, maxAge = 3600)
 @RequestMapping("/myBlog")
 public class BlogController {
     @Autowired
@@ -35,17 +33,16 @@ public class BlogController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/addBlog")
+    @PostMapping("/protect/addBlog")
     public ResponseEntity<Integer> addBlog(String title, String author, String label, String type, String content, String time, String top, MultipartFile[] file) throws IOException {
         //多张图片的话循环遍历，依次创建以及最终拼接成所有字符串的绝对路径
         Blog blog = new Blog();
         if (file != null) {
-//            根据文件数量来调用重载的上传方法
+            //根据文件数量来调用重载的上传方法
             String rs = "";
             if (file.length == 1) {
                 rs =rs+ fileUploadService.upload(file[0], "allImg/");
             } else {
-                System.out.println(file.length);
                 for (int i = 0; i < file.length; i++) {
                     //这里的路径必须是springbooot项目运行端口
                     String path = fileUploadService.upload(file[i], "allImg/");
@@ -180,7 +177,7 @@ public class BlogController {
     }
 
     //删除博客
-    @PostMapping("/deleteById")
+    @PostMapping("/protect/deleteById")
     public ResponseEntity<String> deleteById(Integer bid) {
         System.out.println(bid + "已删除。");
         blogService.deleteById(bid);
@@ -188,14 +185,14 @@ public class BlogController {
     }
 
     //拿到顺序博客
-    @GetMapping("/getBlogsSequence")
+    @GetMapping("/protect/getBlogsSequence")
     public ResponseEntity<List<Blog>> getBlogsSequence() {
         List<Blog> result = blogService.getBlogsSequence();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     //更改留言板信息
-    @PostMapping("/updateMessageBoard")
+    @PostMapping("/protect/updateMessageBoard")
     public ResponseEntity<String> updateMessageBoard(String content) {
         blogService.updateMesaageBorad(content);
         return new ResponseEntity<>("已修改留言板内容。", HttpStatus.OK);
