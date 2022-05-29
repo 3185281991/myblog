@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { RootLogin } from "@/network/root.js";
+import { RootLogin, AutoLogin } from "@/network/root.js";
 import postData from "@/utils/qs.js";
 import topinfo from "@/components/private/topinfo/topinfo.vue";
 export default {
@@ -78,7 +78,31 @@ export default {
     };
   },
   components: { topinfo },
+  created() {
+    this.autoLogin();
+  },
   methods: {
+    autoLogin() {
+      let token = localStorage.getItem("token") || "";
+      let expiresTime = localStorage.getItem("expiresToken") || "";
+      let nowTime = Date.now();
+      //判断是否过期
+      if (expiresTime) {
+        if (nowTime - expiresTime > 3 * 60 * 60 * 24 - 10) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("expiresToken");
+          this.$message.error("身份信息已过期，请登录！");
+        } else {
+          if (token) {
+            AutoLogin().then((res) => {
+              this.$message.success(`${res.data}`);
+              this.$store.commit("addRoute", this.$router);
+              this.$router.push("/census");
+            });
+          }
+        }
+      }
+    },
     login() {
       let username = this.form.username;
       let password = this.form.password;
@@ -93,13 +117,12 @@ export default {
             this.form.username = "";
             this.form.password = "";
           } else {
-            this.form.username = "";
-            this.form.password = "";
-            //用户存在，开始动态添加路由，并跳转页面
-            this.$nextTick(() => {
-              this.$store.commit("addRoute", this.$router);
-              this.$router.push("/census");
-            });
+            //用户存在，保存token，开始动态添加路由，并跳转页面,默认有效七天
+            let time = Date.now();
+            localStorage.setItem("token", obj[1]);
+            localStorage.setItem("expiresToken", time);
+            this.$store.commit("addRoute", this.$router);
+            this.$router.push("/census");
           }
         });
       }
