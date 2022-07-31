@@ -10,11 +10,11 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 20MB
-  #API密钥secretId
+  #腾讯云对象存储API密钥secretId
   qcloud:
-    secretId: AKIDKSLzNWP3RaT7VdW9WeXAXeW0EDwQecLo
+    secretId: 密钥id
     #API密钥secretKey
-    secretKey: FEySgfOr53lERO6YkhPr8AxUlnZ6NPBh
+    secretKey: 密钥
     #存储桶所属地域
     region: ap-nanjing
     #存储桶空间名称
