@@ -140,10 +140,17 @@ export default {
       this.$store.commit("getAcitiveIndex", activeIndex);
       this.$router.push("/concrete/" + bid);
       this.$bus.$emit("pathRecord", "/concrete");
+      sessionStorage.setItem("prevPage", this.pageNum);
     },
   },
   created() {
-    this.sliceData(this.pageNum);
+     let prevPage = sessionStorage.getItem("prevPage");
+    if (prevPage) {
+      this.sliceData(prevPage);
+      this.pageNum = prevPage;
+    } else {
+      this.sliceData(this.pageNum);
+    }
   },
 };
 </script>
