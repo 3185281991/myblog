@@ -103,10 +103,10 @@ export default {
       rules: {
         title: [
           { required: true, message: "请输入标题", trigger: "blur" },
-          { min: 1, max: 15, message: "标题字数1~15", trigger: "blur" },
+          { min: 1, max: 25, message: "标题字数1~25", trigger: "blur" },
         ],
         author: [
-          { required: true, message: "请选择作者", trigger: "blur" },
+          { required: true, message: "请输入作者", trigger: "blur" },
           { min: 1, max: 9, message: "作者名称字数2~9", trigger: "blur" },
         ],
         label: [
