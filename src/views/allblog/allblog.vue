@@ -10,8 +10,7 @@
         </el-table-column>
         <el-table-column prop="type" label="所属类别" width="100">
         </el-table-column>
-        <el-table-column prop="title" label="标题" width="130">
-        </el-table-column>
+        <el-table-column prop="title" label="标题"> </el-table-column>
         <el-table-column prop="time" label="发布时间" width="180">
           <template slot-scope="scope">{{
             scope.row.time | formatTime
