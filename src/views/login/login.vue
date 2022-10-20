@@ -38,9 +38,7 @@
           ></el-input
         ></el-form-item>
         <el-form-item class="login_in">
-          <el-button class="login_x" type="primary" @click="login"
-            >LOGIN</el-button
-          >
+          <el-button type="primary" @click="login">LOGIN</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -88,7 +86,7 @@ export default {
       let nowTime = Date.now();
       //判断是否过期
       if (expiresTime) {
-        if (nowTime - expiresTime > 3 * 60 * 60 * 24 - 10) {
+        if (nowTime - expiresTime > 3 * 60 * 60 * 24 * 1000 - 10) {
           localStorage.removeItem("token");
           localStorage.removeItem("expiresToken");
           this.$message.error("身份信息已过期，请登录！");
@@ -131,6 +129,12 @@ export default {
 };
 </script>
 <style scoped>
+.login {
+  background: url("~@/assets/img/bgc.jpg") center center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
 header {
   position: relative;
   width: 100%;
@@ -138,13 +142,17 @@ header {
   background-color: #333;
 }
 .form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   border-radius: 0.0781rem;
-  width: 2.8646rem;
-  height: 2.0833rem;
-  margin: 1.0417rem auto;
+  min-width: 2.6042rem;
+  min-height: 1.8229rem;
+  transform: translate(-50%, -50%);
   background-color: #fff;
   border: 0.0104rem solid #eaeaea;
   box-shadow: 0 0 0.1302rem #cac6c6;
+  opacity: 0.9;
 }
 
 .el-form {
@@ -163,12 +171,12 @@ header {
   margin: 0.2083rem auto;
   font-size: 0.099rem;
 }
+.el-form-item:nth-child(4) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .el-input {
   width: 90%;
-}
-.login_x {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
 </style>
