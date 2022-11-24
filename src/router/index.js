@@ -102,14 +102,19 @@ const router = new VueRouter({
   routes,
   mode: "history",
 });
+let arr = ["index", "commonlife", "knowledge", "work", "about", "messageBoard"];
 //全局导航守卫更改标题显示
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
+  if (arr.includes(to.name)) {
+    sessionStorage.setItem("isLeave", "false");
+    let index = arr.findIndex((item) => item === to.name);
+    sessionStorage.setItem("index", index);
+  }
   return next();
 });
-//全局后置导航守卫，每次跳转后返回顶部
-router.afterEach(() => {
+router.afterEach((to, from) => {
+  // to and from are both route objects.
   scrollToTop();
 });
-
 export default router;
