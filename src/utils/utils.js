@@ -28,3 +28,31 @@ export function formatData(data, fmt) {
 function padLeftZero(str) {
   return ("00" + str).substring(str.length);
 }
+//防抖
+export function debounce(fun, delay) {
+  let timer = null;
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fun.apply(this, args);
+    }, delay);
+  };
+}
+//节流
+export function throttle(fun, delay) {
+  let canRun = true;
+  return function () {
+    if (!canRun) return;
+    canRun = false;
+    setTimeout(() => {
+      fun.apply(this, Array.from(arguments));
+      canRun = true;
+    }, delay);
+  };
+}
+//数组打乱
+export function randomArr(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
