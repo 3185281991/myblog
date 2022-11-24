@@ -1,8 +1,13 @@
 <template>
   <div class="content">
     <div class="item" v-for="(item, index) in pageData" :key="item.time">
-      <div class="image" @click="linkClick(index, item.bid)">
-        <img :src="item.img | getFirstImg" alt="" title="查看原文" />
+      <div class="image" v-if="item.img" @click="linkClick(index, item.bid)">
+        <img
+          v-lazy="getFirstImg(item.img)"
+          :key="item.img"
+          alt="出错了"
+          title="查看原文"
+        />
       </div>
       <div class="text">
         <div class="title">
@@ -58,18 +63,6 @@ export default {
       },
     },
   },
-  filters: {
-    getFirstImg(imgs) {
-      if (imgs) {
-        let arr = imgs.split(",");
-        if (arr.length == 1) {
-          return arr;
-        } else {
-          return arr[0];
-        }
-      }
-    },
-  },
   computed: {
     //随机截取一段内容
     getRandomContent() {
@@ -78,6 +71,16 @@ export default {
         let rs = str.replace(/(<[^>]+>)/g, "");
         let random = Math.ceil(Math.random() * 50 + 150);
         return rs.slice(0, random) + "......";
+      };
+    },
+    getFirstImg() {
+      return function (imgs) {
+        if (imgs) {
+          let arr = imgs.split(",");
+          if (arr.length > 0) {
+            return arr[0] + "?random=" + Math.random();
+          }
+        }
       };
     },
   },
@@ -96,7 +99,7 @@ export default {
       if (this.pageNum == 1) {
         this.$toast.show("这是第一页 !", 1500);
       } else {
-        this.pageNum = this.pageNum - 1;
+        this.pageNum = parseInt(this.pageNum) - 1;
         this.sliceData(this.pageNum);
         scrollToTop();
       }
@@ -106,7 +109,7 @@ export default {
       if (this.pageNum == end) {
         this.$toast.show("这是最后一页了!", 1500);
       } else {
-        this.pageNum = this.pageNum + 1;
+        this.pageNum = parseInt(this.pageNum) + 1;
         this.sliceData(this.pageNum);
         scrollToTop();
       }
@@ -140,17 +143,10 @@ export default {
       this.$store.commit("getAcitiveIndex", activeIndex);
       this.$router.push("/concrete/" + bid);
       this.$bus.$emit("pathRecord", "/concrete");
-      sessionStorage.setItem("prevPage", this.pageNum);
     },
   },
   created() {
-     let prevPage = sessionStorage.getItem("prevPage");
-    if (prevPage) {
-      this.sliceData(prevPage);
-      this.pageNum = prevPage;
-    } else {
-      this.sliceData(this.pageNum);
-    }
+    this.sliceData(1);
   },
 };
 </script>
@@ -177,9 +173,8 @@ export default {
   height: 100%;
   transition: 0.3s;
   display: block;
-  margin: auto;
 }
-.image img:hover {
+.image img[lazy="loaded"]:hover {
   filter: saturate(1.3);
   transform: scale(1.1);
 }
@@ -217,13 +212,14 @@ ul li i:nth-child(1) {
 }
 .title span:first-child {
   font-size: 0.1458rem;
+  line-height: 0.3125rem;
   margin-left: 3%;
 }
 .title span:nth-child(2) {
   background-color: #337ab7;
   color: white;
   margin-left: 2%;
-  margin-top: 1%;
+  margin-top: 2%;
 }
 
 .text .info {
