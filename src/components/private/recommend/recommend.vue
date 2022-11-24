@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getRandomArray } from "@/utils/arrSplice.js";
+import { randomArr } from "@/utils/utils.js";
 export default {
   name: "recommend",
   data() {
@@ -56,7 +56,6 @@ export default {
       },
     },
   },
-  components: {},
   methods: {
     con(bid) {
       this.$router.push("/concrete/" + bid);
@@ -74,8 +73,7 @@ export default {
       sessionStorage.setItem("ranFlag", "true");
       sessionStorage.setItem("recFlag", "false");
       //随机从所有数据中取出六条
-      let arr = this.AllBlog;
-      this.ranData = getRandomArray(arr, 6);
+      this.ranData = randomArr(this.AllBlog).slice(0, 6);
       sessionStorage.setItem("ranData", JSON.stringify(this.ranData));
     },
   },
@@ -87,10 +85,9 @@ export default {
     if (sessionStorage.getItem("ranData") !== null) {
       this.ranData = JSON.parse(sessionStorage.getItem("ranData"));
     } else {
-      this.ranData = getRandomArray(this.AllBlog, 6);
+      this.ranData = randomArr(this.AllBlog).slice(0, 6);
     }
   },
-  mounted() {},
 };
 </script>
 <style scoped>
