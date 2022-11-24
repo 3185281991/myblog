@@ -1,28 +1,28 @@
+import cApi from "./cache";
 import request from "./index";
-
 //进入首页是显示的博客信息
 export function getAllBlog() {
   return request({ url: "/getAllBlog" });
 }
 //搜索页的默认的数据
 export function SearchInfo() {
-  return request({ url: "/SearchInfo" });
+  return cApi.cacheRequest({ url: "/SearchInfo" });
 }
 //标签查询
 export function getLabel() {
-  return request({ url: "/getLabel" });
+  return cApi.cacheRequest({ url: "/getLabel" });
 }
 //侧边栏推荐
 export function getRecommend() {
-  return request({ url: "/Recommend" });
+  return cApi.cacheRequest({ url: "/Recommend" });
 }
 //侧边栏名言
 export function getImpassion() {
-  return request({ url: "/getImpassion" });
+  return cApi.cacheRequest({ url: "/getImpassion" });
 }
 //侧边栏介绍
 export function getAdvertise() {
-  return request({ url: "/getAdvertise" });
+  return cApi.cacheRequest({ url: "/getAdvertise" });
 }
 //侧边栏随机轮播图
 export function randomImg() {
@@ -30,7 +30,7 @@ export function randomImg() {
 }
 //模糊查询
 export function likeFind(str) {
-  return request({
+  return cApi.cacheRequest({
     url: "/likeFind",
     params: {
       str,
@@ -40,7 +40,7 @@ export function likeFind(str) {
 
 //获得不同类型的博客
 export function getBlogByType(type) {
-  return request({
+  return cApi.cacheRequest({
     url: "/getBlogByType",
     params: {
       type,
@@ -50,7 +50,7 @@ export function getBlogByType(type) {
 
 //文章具体信息的获得,留言板是1
 export function getContent(bid) {
-  return request({
+  return cApi.cacheRequest({
     url: "/getById",
     params: {
       bid,
@@ -68,7 +68,7 @@ export function getReviewsByEmail(customer) {
 }
 //获取评论信息
 export function getCommentByBid(bid) {
-  return request({
+  return cApi.cacheRequest({
     url: "/getCommentByBid",
     params: {
       bid,
